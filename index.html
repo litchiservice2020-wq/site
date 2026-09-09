@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ニコア株式会社 | コーポレートサイト</title>
+    <!-- Tailwind CSS を読み込む -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- カスタム設定：日式なカラースキームとフォント -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#0F172A', // 落ち着いた深みのあるネイビー（信頼感・高級感）
+                        'secondary': '#F8FAFC', // 薄いグレー（背景用）
+                        'accent': '#E11D48', // 落ち着いた赤（アクセント）
+                        'text-main': '#334155', // 本文の濃いグレー
+                        'text-light': '#64748B', // サブテキスト
+                    },
+                    fontFamily: {
+                        'sans': ['"Noto Sans JP"', '"Hiragino Kaku Gothic ProN"', '"Meiryo"', 'sans-serif'],
+                        'serif': ['"Noto Serif JP"', '"Yu Mincho"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts から Noto Sans JP と Noto Serif JP を読み込む -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome (アイコン用) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* カスタムスタイル */
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            color: #334155;
+            background-color: #F8FAFC;
+        }
+        
+        /* セクションのタイトルスタイル (明朝体で上品に) */
+        .section-title {
+            font-family: 'Noto Serif JP', serif;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #0F172A;
+            font-weight: 700;
+        }
+        
+        /* タイトルの下のアクセントライン */
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -10px;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            background-color: #E11D48;
+        }
+
+        /* スムーススクロール */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* ホバー時のフェード効果 */
+        .hover-fade {
+            transition: opacity 0.3s ease;
+        }
+        .hover-fade:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+
+    <!-- サイトヘッダー (ナビゲーション) -->
+    <header class="bg-white shadow-sm fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                
+                <!-- ロゴ領域 -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#" class="flex items-center gap-2 group">
+                        <!-- アイコンのプレースホルダー -->
+                        <div class="w-10 h-10 bg-primary text-white flex items-center justify-center rounded-sm group-hover:bg-accent transition-colors">
+                            <i class="fa-solid fa-earth-asia text-xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold text-primary leading-tight font-serif tracking-widest">ニコア株式会社</h1>
+                            <span class="text-xs text-text-light uppercase tracking-wider block">Nicoa Co., Ltd.</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- デスクトップナビゲーション -->
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="#home" class="text-text-main hover:text-accent text-sm font-medium transition-colors">ホーム</a>
+                    <a href="#about" class="text-text-main hover:text-accent text-sm font-medium transition-colors">企業情報</a>
+                    <a href="#services" class="text-text-main hover:text-accent text-sm font-medium transition-colors">事業内容</a>
+                    <a href="#news" class="text-text-main hover:text-accent text-sm font-medium transition-colors">お知らせ</a>
+                    <a href="#contact" class="text-text-main hover:text-accent text-sm font-medium transition-colors">お問い合わせ</a>
+                    
+                    <!-- 言語切り替え (モック) -->
+                    <div class="pl-4 border-l border-gray-200">
+                        <button class="text-text-light hover:text-primary text-sm flex items-center gap-1">
+                            <i class="fa-solid fa-globe"></i> JP
+                        </button>
+                    </div>
+                </nav>
+
+                <!-- モバイルメニューボタン -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-text-main hover:text-primary focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- モバイルナビゲーション (デフォルトは非表示) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="block px-3 py-2 text-base font-medium text-text-main hover:bg-gray-50 hover:text-accent">ホーム</a>
+                <a href="#about" class="block px-3 py-2 text-base font-medium text-text-main hover:bg-gray-50 hover:text-accent">企業情報</a>
+                <a href="#services" class="block px-3 py-2 text-base font-medium text-text-main hover:bg-gray-50 hover:text-accent">事業内容</a>
+                <a href="#news" class="block px-3 py-2 text-base font-medium text-text-main hover:bg-gray-50 hover:text-accent">お知らせ</a>
+                <a href="#contact" class="block px-3 py-2 text-base font-medium text-text-main hover:bg-gray-50 hover:text-accent">お問い合わせ</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ (ヘッダーの高さ分だけマージンを設ける) -->
+    <main class="flex-grow pt-20">
+
+        <!-- ヒーローセクション (主視覚区) - 以前の重厚感のあるダークトーンに -->
+        <section id="home" class="relative bg-primary h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
+            <!-- 背景画像のプレースホルダー -->
+            <div class="absolute inset-0 z-0">
+                <img src="https://placehold.co/1920x1080/1E293B/94A3B8?text=Global+Trade+Background" alt="Global Trade Background" class="w-full h-full object-cover opacity-40">
+                <!-- ダークなグラデーションのオーバーレイ -->
+                <div class="absolute inset-0 bg-gradient-to-b from-primary/80 to-primary/95"></div>
+            </div>
+            
+            <!-- コンテンツ (文字色を白に) -->
+            <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+                <p class="text-accent text-sm md:text-base font-bold tracking-[0.2em] mb-4 uppercase">Cross-border E-commerce & Trading</p>
+                <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 font-serif leading-tight">
+                    日本と世界を繋ぐ、<br>新しいコマースの形。<br>
+                    <span class="text-gray-300 text-3xl md:text-4xl lg:text-5xl mt-4 block font-sans font-light">Global Trading Solutions</span>
+                </h2>
+                <p class="text-gray-300 text-base md:text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
+                    化粧品、日用品、アパレルなど、日本の高品質な製品を世界へ。<br class="hidden md:block">
+                    世界へ向けたグローバルなクロスボーダーEC（ライブコマース）を主軸に、<br class="hidden md:block">
+                    海外市場向け購買代行やマーケティング支援を強力にサポートいたします。
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#services" class="bg-accent hover:bg-accent/90 text-white font-medium py-3 px-8 rounded-sm transition-colors duration-300 shadow-md flex items-center justify-center gap-2">
+                        事業内容を見る <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </a>
+                    <a href="#contact" class="bg-transparent border border-gray-400 text-white hover:bg-white/10 font-medium py-3 px-8 rounded-sm transition-colors duration-300 shadow-sm flex items-center justify-center">
+                        お問い合わせ
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 企業情報セクション -->
+        <section id="about" class="py-20 bg-white">
+            <div class="container mx-auto px-4 lg:px-8 max-w-4xl text-center">
+                <h3 class="section-title text-3xl">会社概要</h3>
+                <p class="text-text-light text-sm uppercase tracking-widest mb-12">Company Profile</p>
+                
+                <div class="text-left border-t border-gray-200">
+                    <dl class="divide-y divide-gray-200">
+                        <div class="py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                            <dt class="text-sm font-bold text-primary sm:mt-1">会社名</dt>
+                            <dd class="mt-1 text-sm text-text-main sm:mt-0 sm:col-span-2">ニコア株式会社</dd>
+                        </div>
+                        <div class="py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                            <dt class="text-sm font-bold text-primary sm:mt-1">所在地</dt>
+                            <dd class="mt-1 text-sm text-text-main sm:mt-0 sm:col-span-2">
+                                〒104-0033<br>
+                                東京都中央区新川1-3-21
+                            </dd>
+                        </div>
+                        <div class="py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                            <dt class="text-sm font-bold text-primary sm:mt-1">代表者</dt>
+                            <dd class="mt-1 text-sm text-text-main sm:mt-0 sm:col-span-2">代表取締役 王珊珊</dd>
+                        </div>
+                        <div class="py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                            <dt class="text-sm font-bold text-primary sm:mt-1">設立</dt>
+                            <dd class="mt-1 text-sm text-text-main sm:mt-0 sm:col-span-2">令和8年（2026年）8月12日</dd>
+                        </div>
+                        <div class="py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                            <dt class="text-sm font-bold text-primary sm:mt-1">事業内容</dt>
+                            <dd class="mt-1 text-sm text-text-main sm:mt-0 sm:col-span-2">
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>グローバル市場向けクロスボーダーEC（ライブコマース）事業</li>
+                                    <li>化粧品、日用品、アパレル、ファッション雑貨の輸出入及び販売</li>
+                                    <li>海外向け購買代行及びマーケティング支援事業</li>
+                                </ul>
+                            </dd>
+                        </div>
+                        <div class="py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                            <dt class="text-sm font-bold text-primary sm:mt-1">主要取引先</dt>
+                            <dd class="mt-1 text-sm text-text-main sm:mt-0 sm:col-span-2">
+                                <p class="font-medium mb-1">【仕入先・販売先】</p>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>日本国内の百貨店、量販店、正規問屋・卸売業者</li>
+                                    <li>国内外の法人企業、ECプラットフォーム、および一般消費者</li>
+                                </ul>
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </section>
+
+        <!-- 事業内容セクション -->
+        <section id="services" class="py-20 bg-secondary">
+            <div class="container mx-auto px-4 lg:px-8 max-w-6xl text-center">
+                <h3 class="section-title text-3xl">事業内容</h3>
+                <p class="text-text-light text-sm uppercase tracking-widest mb-12">Our Business</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                    <!-- Service 1 -->
+                    <div class="bg-white p-8 rounded-sm shadow-sm hover:shadow-md transition-shadow border border-gray-100 group">
+                        <div class="w-14 h-14 bg-gray-50 text-primary rounded-full flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                            <i class="fa-solid fa-mobile-screen-button text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-3">クロスボーダーEC事業</h4>
+                        <p class="text-text-main text-sm leading-relaxed">
+                            世界各国の市場へ向けた、ライブコマースを中心とした越境EC事業を展開。<br><br>海外の一般消費者（B2C）や海外ECプラットフォームへ向けて、日本の魅力的な商品をダイレクトに発信・販売します。
+                        </p>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="bg-white p-8 rounded-sm shadow-sm hover:shadow-md transition-shadow border border-gray-100 group">
+                        <div class="w-14 h-14 bg-gray-50 text-primary rounded-full flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                            <i class="fa-solid fa-ship text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-3">輸出入及び販売</h4>
+                        <p class="text-text-main text-sm leading-relaxed">
+                            化粧品、日用品、アパレル、ファッション雑貨などを幅広く取り扱い。<br><br>国内の百貨店、量販店、正規問屋様との連携により、確かな品質の商品を輸出入・販売しております。
+                        </p>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="bg-white p-8 rounded-sm shadow-sm hover:shadow-md transition-shadow border border-gray-100 group">
+                        <div class="w-14 h-14 bg-gray-50 text-primary rounded-full flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                            <i class="fa-solid fa-chart-line text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-3">購買代行・マーケティング支援</h4>
+                        <p class="text-text-main text-sm leading-relaxed">
+                            海外向け購買代行業務に加え、海外市場への進出や販路拡大を目指す企業様へのマーケティング支援を提供。<br><br>現地のトレンドを熟知した専門スタッフがサポートいたします。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- お知らせセクション (日式によくあるリスト形式) -->
+        <section id="news" class="py-20 bg-white">
+            <div class="container mx-auto px-4 lg:px-8 max-w-4xl text-center">
+                <h3 class="section-title text-3xl">お知らせ</h3>
+                <p class="text-text-light text-sm uppercase tracking-widest mb-12">News & Updates</p>
+
+                <div class="text-left border-t border-gray-200">
+                    <!-- News Item 1 -->
+                    <a href="#" class="block py-5 border-b border-gray-200 hover:bg-gray-50 transition-colors px-2">
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
+                            <div class="flex items-center gap-3 w-40 flex-shrink-0">
+                                <span class="text-text-light text-sm font-medium">2026.09.09</span>
+                                <span class="bg-gray-200 text-text-main text-xs px-2 py-1 rounded-sm">お知らせ</span>
+                            </div>
+                            <h4 class="text-text-main font-medium group-hover:text-primary leading-tight">コーポレートサイトを開設いたしました</h4>
+                        </div>
+                    </a>
+                    
+                    <!-- News Item 2 -->
+                    <a href="#" class="block py-5 border-b border-gray-200 hover:bg-gray-50 transition-colors px-2">
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
+                            <div class="flex items-center gap-3 w-40 flex-shrink-0">
+                                <span class="text-text-light text-sm font-medium">2026.09.01</span>
+                                <span class="bg-accent text-white text-xs px-2 py-1 rounded-sm">サービス</span>
+                            </div>
+                            <h4 class="text-text-main font-medium group-hover:text-primary leading-tight">海外向け越境EC・ライブコマース支援サービスの本格提供を開始</h4>
+                        </div>
+                    </a>
+
+                    <!-- News Item 3 -->
+                    <a href="#" class="block py-5 border-b border-gray-200 hover:bg-gray-50 transition-colors px-2">
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
+                            <div class="flex items-center gap-3 w-40 flex-shrink-0">
+                                <span class="text-text-light text-sm font-medium">2026.08.12</span>
+                                <span class="bg-primary text-white text-xs px-2 py-1 rounded-sm">企業情報</span>
+                            </div>
+                            <h4 class="text-text-main font-medium group-hover:text-primary leading-tight">ニコア株式会社を設立いたしました</h4>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="mt-8">
+                    <a href="#" class="inline-block border border-gray-300 text-text-main hover:border-primary hover:text-primary font-medium py-2 px-6 rounded-sm transition-colors text-sm">
+                        お知らせ一覧を見る
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- お問い合わせ誘導セクション (落ち着いたデザインに戻す) -->
+        <section class="py-16 bg-gray-50 text-center border-y border-gray-200">
+            <div class="container mx-auto px-4">
+                <h3 class="text-2xl font-bold text-primary mb-4">ビジネスのご相談、お見積りなどお気軽にお問い合わせください</h3>
+                <p class="text-text-main mb-8 text-sm">お問い合わせ窓口：contact.nicoa@gmail.com / TEL: 080-9202-5330</p>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
+                    <a href="mailto:contact.nicoa@gmail.com" class="bg-primary hover:bg-primary/90 text-white font-medium py-3 px-8 rounded-sm transition-colors shadow-md">
+                        <i class="fa-regular fa-envelope mr-2"></i>メールでお問い合わせ
+                    </a>
+                    <a href="tel:08092025330" class="bg-white border border-primary text-primary hover:bg-gray-50 font-medium py-3 px-8 rounded-sm transition-colors shadow-sm">
+                        <i class="fa-solid fa-phone mr-2"></i>電話でお問い合わせ
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- フッター (ダークトーンに戻す) -->
+    <footer id="contact" class="bg-primary pt-16 pb-8 text-gray-300">
+        <div class="container mx-auto px-4 lg:px-8 max-w-6xl">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-12">
+                
+                <!-- 会社情報 -->
+                <div class="col-span-1 md:col-span-2">
+                    <a href="#" class="flex items-center gap-2 mb-6 inline-block group">
+                        <div class="w-10 h-10 bg-white/10 text-white flex items-center justify-center rounded-sm group-hover:bg-accent transition-colors">
+                            <i class="fa-solid fa-earth-asia text-xl"></i>
+                        </div>
+                        <div>
+                            <span class="text-xl font-bold text-white leading-tight font-serif tracking-widest block">ニコア株式会社</span>
+                        </div>
+                    </a>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        〒104-0033<br>
+                        東京都中央区新川1-3-21
+                    </p>
+                    <ul class="text-gray-400 text-sm space-y-2">
+                        <li><a href="tel:08092025330" class="hover:text-white transition-colors"><i class="fa-solid fa-phone w-5 text-gray-500"></i> 080-9202-5330</a></li>
+                        <li><a href="mailto:contact.nicoa@gmail.com" class="hover:text-white transition-colors"><i class="fa-solid fa-envelope w-5 text-gray-500"></i> contact.nicoa@gmail.com</a></li>
+                    </ul>
+                </div>
+
+                <!-- リンク群 1 -->
+                <div>
+                    <h5 class="text-white font-bold mb-6 pb-2 border-b border-gray-700 inline-block">企業情報</h5>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">トップメッセージ</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white text-sm transition-colors">会社概要</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">企業理念</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">アクセス</a></li>
+                    </ul>
+                </div>
+
+                <!-- リンク群 2 -->
+                <div>
+                    <h5 class="text-white font-bold mb-6 pb-2 border-b border-gray-700 inline-block">事業内容</h5>
+                    <ul class="space-y-3">
+                        <li><a href="#services" class="text-gray-400 hover:text-white text-sm transition-colors">クロスボーダーEC事業</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white text-sm transition-colors">輸出入及び販売</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white text-sm transition-colors">購買代行・マーケティング支援</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- コピーライト -->
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-500 text-xs">
+                    &copy; 2026 Nicoa Co., Ltd. All Rights Reserved.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#" class="text-gray-500 hover:text-white text-xs transition-colors">プライバシーポリシー</a>
+                    <a href="#" class="text-gray-500 hover:text-white text-xs transition-colors">サイトマップ</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- スクリプト (モバイルメニュー用) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('mobile-menu-button');
+            const menu = document.getElementById('mobile-menu');
+
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+
+            // メニュー項目をクリックしたらメニューを閉じる
+            const links = menu.querySelectorAll('a');
+            links.forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
